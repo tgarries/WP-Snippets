@@ -20,13 +20,22 @@ add_action('init', 'removeHeadLinks');
  
  
 /*      Remove version numbers after css, js files      */
-function removeWpVerCssJs( $src ) {
-    if ( strpos( $src, 'ver=' ) )
-        $src = remove_query_arg( 'ver', $src );
-    return $src;
+// remove version from head
+remove_action('wp_head', 'wp_generator');
+
+// remove version from rss
+add_filter('the_generator', '__return_empty_string');
+
+// remove version from scripts and styles
+function tg_remove_version_scripts_styles($src) {
+	if (strpos($src, 'ver=')) {
+		$src = remove_query_arg('ver', $src);
+	}
+	return $src;
 }
-add_filter('style_loader_src', 'removeWpVerCssJs', 9999 );
-add_filter('script_loader_src', 'removeWpVerCssJs', 9999 );
+add_filter('style_loader_src', 'tg_remove_version_scripts_styles', 9999);
+add_filter('script_loader_src', 'tg_remove_version_scripts_styles', 9999);
+
  
  
 /*      Remove revolution slider meta       */
@@ -73,3 +82,5 @@ function wpb_admin_account(){
 }
 add_action('init','wpb_admin_account');
      
+/*       Remove the WP Theme Editor */
+define( 'DISALLOW_FILE_EDIT', true );
