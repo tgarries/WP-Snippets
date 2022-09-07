@@ -53,7 +53,7 @@ if ( ! current_user_can( 'edit_pages' ) ) {
 /*
  *  Remove menu bar items for user roles less than Editor
  */
-function gdq_remove_admin_bar_items() {
+function gdq_remove_admin_bar_items($wp_admin_bar) {
    global $user_ID;
    if ( ! current_user_can( 'edit_pages' ) ) {
       // Remove items from admin bar
