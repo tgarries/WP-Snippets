@@ -47,5 +47,24 @@ function gdq_remove_menu_pages() {
  *  Hide the Admin Bar for user roles less than Editor
  */
 if ( ! current_user_can( 'edit_pages' ) ) {
-    add_filter( 'show_admin_bar', '__return_false' );
+   add_filter( 'show_admin_bar', '__return_false' );
 }
+
+/*
+ *  Remove menu bar items for user roles less than Editor
+ */
+function gdq_remove_admin_bar_items() {
+   global $user_ID;
+   if ( ! current_user_can( 'edit_pages' ) ) {
+      // Remove items from admin bar
+      $wp_admin_bar->remove_node('updates');
+      $wp_admin_bar->remove_node('comments');
+      $wp_admin_bar->remove_node('new-content');
+      $wp_admin_bar->remove_node('wp-logo');
+      //$wp_admin_bar->remove_node('site-name');
+      //$wp_admin_bar->remove_node('my-account');
+      //$wp_admin_bar->remove_node('search');
+      //$wp_admin_bar->remove_node('customize');
+   }
+}
+add_action('admin_bar_menu', 'gdq_remove_admin_bar_items', 999);
