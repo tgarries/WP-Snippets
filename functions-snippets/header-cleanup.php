@@ -28,6 +28,14 @@ add_filter('the_generator', '__return_empty_string');
 
 // remove version from scripts and styles
 function gdq_remove_version_scripts_styles($src) {
+	
+	if( is_admin() || wp_doing_ajax() ) return $src;
+	
+	if (strpos($src, 'ver=')) {
+		$src = remove_query_arg('ver', $src);
+	}
+	return $src;
+
 	if (strpos($src, 'ver=')) {
 		$src = remove_query_arg('ver', $src);
 	}
